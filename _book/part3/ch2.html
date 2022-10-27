@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>channel · Go 笔记</title>
+        <title>微服务设计 · Go 笔记</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -78,8 +78,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="ch3.html" />
     
-    <link rel="prev" href="ch3.html" />
+    
+    <link rel="prev" href="ch1.html" />
     
 
     <style>
@@ -195,9 +197,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1" data-path="ch1.html">
+        <li class="chapter " data-level="1.3.1" data-path="../part2/ch1.html">
             
-                <a href="ch1.html">
+                <a href="../part2/ch1.html">
             
                     
                         <b>1.3.1.</b>
@@ -210,9 +212,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.2" data-path="ch2.html">
+        <li class="chapter " data-level="1.3.2" data-path="../part2/ch2.html">
             
-                <a href="ch2.html">
+                <a href="../part2/ch2.html">
             
                     
                         <b>1.3.2.</b>
@@ -225,9 +227,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.3" data-path="ch3.html">
+        <li class="chapter " data-level="1.3.3" data-path="../part2/ch3.html">
             
-                <a href="ch3.html">
+                <a href="../part2/ch3.html">
             
                     
                         <b>1.3.3.</b>
@@ -240,9 +242,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3.4" data-path="ch4.html">
+        <li class="chapter " data-level="1.3.4" data-path="../part2/ch4.html">
             
-                <a href="ch4.html">
+                <a href="../part2/ch4.html">
             
                     
                         <b>1.3.4.</b>
@@ -276,9 +278,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.4.1" data-path="../part3/ch1.html">
+        <li class="chapter " data-level="1.4.1" data-path="ch1.html">
             
-                <a href="../part3/ch1.html">
+                <a href="ch1.html">
             
                     
                         <b>1.4.1.</b>
@@ -291,9 +293,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.2" data-path="../part3/ch2.html">
+        <li class="chapter active" data-level="1.4.2" data-path="ch2.html">
             
-                <a href="../part3/ch2.html">
+                <a href="ch2.html">
             
                     
                         <b>1.4.2.</b>
@@ -306,9 +308,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.3" data-path="../part3/ch3.html">
+        <li class="chapter " data-level="1.4.3" data-path="ch3.html">
             
-                <a href="../part3/ch3.html">
+                <a href="ch3.html">
             
                     
                         <b>1.4.3.</b>
@@ -321,7 +323,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.4" data-path="../part3/ch4.md">
+        <li class="chapter " data-level="1.4.4" data-path="ch4.md">
             
                 <span>
             
@@ -482,7 +484,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >channel</a>
+        <a href=".." >微服务设计</a>
     </h1>
 </div>
 
@@ -497,77 +499,46 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <html><head></head><body><div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#channel"><b></b>channel</a></li></ul></div><a href="#channel" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="channel"><a name="channel" class="anchor-navigation-ex-anchor" href="#channel"><i class="fa fa-link" aria-hidden="true"></i></a>channel</h1>
-<p>&#x5E26;&#x7F13;&#x5B58;&#x548C;&#x4E0D;&#x5E26;&#x7F13;&#x5B58;&#xFF1A;</p>
-<pre><code class="lang-go"><span class="hljs-keyword">package</span> main
-
-<span class="hljs-keyword">import</span> (
-    <span class="hljs-string">&quot;fmt&quot;</span>
-    <span class="hljs-string">&quot;time&quot;</span>
-)
-
-<span class="hljs-keyword">func</span> main() {
-    channelWithoutCache()
-    channelWithCache()
-}
-
-<span class="hljs-keyword">func</span> channelWithoutCache() {
-    ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">string</span>, <span class="hljs-number">1</span>)
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>() {
-        ch &lt;- <span class="hljs-string">&quot;Hello, first msg from channel&quot;</span>
-        time.Sleep(time.Second)
-        ch &lt;- <span class="hljs-string">&quot;Hello, second msg from channel&quot;</span>
-    }()
-
-    time.Sleep(<span class="hljs-number">2</span> * time.Second)
-    msg := &lt;-ch
-    fmt.Println(time.Now().String() + msg)
-    msg = &lt;-ch
-    fmt.Println(time.Now().String() + msg)
-    <span class="hljs-comment">// &#x56E0;&#x4E3A;&#x524D;&#x9762;&#x6211;&#x4EEC;&#x5148;&#x7761;&#x4E86; 2 &#x79D2;&#xFF0C;&#x800C;&#x4E14;&#x5176;&#x5B9E;&#x4F1A;&#x6709;&#x4E00;&#x4E2A;&#x5DF2;&#x7ECF;&#x5728;&#x7F13;&#x51B2;&#x4E86;</span>
-    <span class="hljs-comment">// &#x5F53;&#x6211;&#x4EEC;&#x5C1D;&#x8BD5;&#x8F93;&#x51FA;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FD9;&#x4E2A;&#x8F93;&#x51FA;&#x95F4;&#x9694;&#x4F1A;&#x660E;&#x663E;&#x5C0F;&#x4E8E; 1 &#x79D2;</span>
-}
-
-<span class="hljs-keyword">func</span> channelWithCache() {
-    <span class="hljs-comment">// &#x4E0D;&#x5E26;&#x7F13;&#x51B2;</span>
-    ch := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">string</span>)
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>() {
-        time.Sleep(time.Second)
-        ch &lt;- <span class="hljs-string">&quot;Hello, msg from channel&quot;</span>
-    }()
-
-    msg := &lt;-ch
-    fmt.Println(msg)
-}
-</code></pre>
-<p>select &#x987A;&#x5E8F;&#x662F;&#x4E0D;&#x5B9A;&#x7684;&#xFF1A;</p>
-<pre><code class="lang-go"><span class="hljs-keyword">func</span> Select() {
-    ch1 := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">string</span>)
-    ch2 := <span class="hljs-built_in">make</span>(<span class="hljs-keyword">chan</span> <span class="hljs-keyword">string</span>)
-
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>() {
-        time.Sleep(time.Second)
-        ch1 &lt;- <span class="hljs-string">&quot;msg from channel1&quot;</span>
-    }()
-
-    <span class="hljs-keyword">go</span> <span class="hljs-keyword">func</span>() {
-        time.Sleep(time.Second)
-        ch2 &lt;- <span class="hljs-string">&quot;msg from channel2&quot;</span>
-    }()
-
-    <span class="hljs-comment">// select &#x5728;&#x540C;&#x65F6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x4E0D;&#x4FDD;&#x8BC1;&#x987A;&#x5E8F;</span>
-    <span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2</span>; i++ {
-        <span class="hljs-keyword">select</span> {
-        <span class="hljs-keyword">case</span> msg := &lt;-ch1:
-            fmt.Println(msg)
-        <span class="hljs-keyword">case</span> msg := &lt;-ch2:
-            fmt.Println(msg)
-        }
-    }
-}
-</code></pre>
+                                <html><head></head><body><div id="anchor-navigation-ex-navbar"><i class="fa fa-navicon"></i><ul><li><span class="title-icon "></span><a href="#&#x5FAE;&#x670D;&#x52A1;&#x8BBE;&#x8BA1;"><b></b>&#x5FAE;&#x670D;&#x52A1;&#x8BBE;&#x8BA1;</a></li><ul><li><span class="title-icon "></span><a href="#api-gateway"><b></b>API Gateway</a></li></ul></ul></div><a href="#&#x5FAE;&#x670D;&#x52A1;&#x8BBE;&#x8BA1;" id="anchorNavigationExGoTop"><i class="fa fa-arrow-up"></i></a><h1 id="&#x5FAE;&#x670D;&#x52A1;&#x8BBE;&#x8BA1;"><a name="&#x5FAE;&#x670D;&#x52A1;&#x8BBE;&#x8BA1;" class="anchor-navigation-ex-anchor" href="#&#x5FAE;&#x670D;&#x52A1;&#x8BBE;&#x8BA1;"><i class="fa fa-link" aria-hidden="true"></i></a>&#x5FAE;&#x670D;&#x52A1;&#x8BBE;&#x8BA1;</h1>
+<h2 id="api-gateway"><a name="api-gateway" class="anchor-navigation-ex-anchor" href="#api-gateway"><i class="fa fa-link" aria-hidden="true"></i></a>API Gateway</h2>
+<p>&#x6211;&#x4EEC;&#x8FDB;&#x884C;&#x4E86; SOA &#x670D;&#x52A1;&#x5316;&#x7684;&#x67B6;&#x6784;&#x6F14;&#x8FDB;&#xFF0C;&#x6309;&#x7167;&#x5782;&#x76F4;&#x529F;&#x80FD;&#x8FDB;&#x884C;&#x4E86;&#x62C6;&#x5206;&#xFF0C;&#x5BF9;&#x5916;&#x66B4;&#x9732;&#x4E86;&#x4E00;&#x6279;&#x5FAE;&#x670D;&#x52A1;&#xFF0C;&#x4F46;&#x662F;&#x56E0;&#x4E3A;&#x7F3A;&#x4E4F;&#x7EDF;&#x7684;&#x51FA;&#x53E3;&#x9762;&#x4E34;&#x4E86;&#x4E0D;&#x5C11;&#x56F0;&#x96BE;&#xFF1A;</p>
+<ul>
+<li><p>&#x5BA2;&#x6237;&#x7AEF;&#x5230;&#x5FAE;&#x670D;&#x52A1;&#x76F4;&#x63A5;&#x901A;&#x4FE1;&#xFF0C;&#x5F3A;&#x8026;&#x5408;&#x3002;</p>
+</li>
+<li><p>&#x9700;&#x8981;&#x591A;&#x6B21;&#x8BF7;&#x6C42;&#xFF0C;&#x5BA2;&#x6237;&#x7AEF;&#x805A;&#x5408;&#x6570;&#x636E;&#xFF0C;&#x5DE5;&#x4F5C;&#x91CF;&#x5DE8;&#x5927;&#xFF0C;&#x5EF6;&#x8FDF;&#x9AD8;&#x3002;</p>
+</li>
+<li><p>&#x534F;&#x8BAE;&#x4E0D;&#x5229;&#x4E8E;&#x7EDF;&#x4E00;&#xFF0C;&#x5404;&#x4E2A;&#x90E8;&#x95E8;&#x95F4;&#x6709;&#x5DEE;&#x5F02;&#xFF0C;&#x9700;&#x8981;&#x7AEF;&#x6765;&#x517C;&#x5BB9;&#x3002;</p>
+</li>
+<li><p>&#x9762;&#x5411;&#x201C;&#x7AEF;&#x201D;&#x7684; API &#x9002;&#x914D;&#xFF0C;&#x8026;&#x5408;&#x5230;&#x4E86;&#x5185;&#x90E8;&#x670D;&#x52A1;&#x3002;</p>
+</li>
+<li><p>&#x591A;&#x7EC8;&#x7AEF;&#x517C;&#x5BB9;&#x903B;&#x8F91;&#x590D;&#x6742;&#xFF0C;&#x6BCF;&#x4E2A;&#x670D;&#x52A1;&#x90FD;&#x9700;&#x8981;&#x5904;&#x7406;&#x3002;</p>
+</li>
+<li><p>&#x7EDF;&#x4E00;&#x903B;&#x8F91;&#x65E0;&#x6CD5;&#x6536;&#x655B;&#xFF0C;&#x6BD4;&#x5982;&#x5B89;&#x5168;&#x8BA4;&#x8BC1;&#x3001;&#x9650;&#x6D41;&#x3002;</p>
+</li>
+</ul>
+<p>&#x6211;&#x4EEC;&#x65B0;&#x589E;&#x4E86;&#x4E00;&#x4E2A; app-interface &#x7528;&#x4E8E;&#x7EDF;&#x4E00;&#x7684;&#x534F;&#x8BAE;&#x51FA;&#x53E3;&#xFF0C;&#x5728;&#x670D;&#x52A1;&#x5185;&#x8FDB;&#x884C;&#x5927;&#x91CF;&#x7684; dataset join&#xFF0C;&#x6309;&#x7167;&#x4E1A;&#x52A1;&#x573A;&#x666F;&#x6765;&#x8BBE;&#x8BA1;&#x7C97;&#x7C92;&#x5EA6;&#x7684; API&#xFF0C;&#x7ED9;&#x540E;&#x7EED;&#x670D;&#x52A1;&#x7684;&#x6F14;&#x8FDB;&#x5E26;&#x6765;&#x7684;&#x5F88;&#x591A;&#x4F18;&#x52BF;&#xFF1A;</p>
+<ul>
+<li><p>&#x8F7B;&#x91CF;&#x4EA4;&#x4E92;&#xFF1A;&#x534F;&#x8BAE;&#x7CBE;&#x7B80;&#x3001;&#x805A;&#x5408;&#x3002;</p>
+</li>
+<li><p>&#x5DEE;&#x5F02;&#x670D;&#x52A1;&#xFF1A;&#x6570;&#x636E;&#x88C1;&#x526A;&#x4EE5;&#x53CA;&#x805A;&#x5408;&#x3001;&#x9488;&#x5BF9;&#x7EC8;&#x7AEF;&#x5B9A;&#x5236;&#x5316; API&#x3002;</p>
+</li>
+<li><p>&#x52A8;&#x6001;&#x5347;&#x7EA7;&#xFF1A;&#x539F;&#x6709;&#x7CFB;&#x7EDF;&#x517C;&#x5BB9;&#x5347;&#x7EA7;&#xFF0C;&#x66F4;&#x65B0;&#x670D;&#x52A1;&#x800C;&#x975E;&#x534F;&#x8BAE;&#x3002;</p>
+</li>
+<li><p>&#x901A;&#x6548;&#x7387;&#x63D0;&#x5347;&#xFF0C;&#x534F;&#x4F5C;&#x6A21;&#x5F0F;&#x6F14;&#x8FDB;&#x4E3A;&#x79FB;&#x52A8;&#x4E1A;&#x52A1;+&#x7F51;&#x5173;&#x5C0F;&#x7EC4;&#x3002;</p>
+</li>
+</ul>
+<blockquote>
+<p>BFF&#xFF08;Backend for Frontend&#xFF09;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x662F;&#x4E00;&#x79CD;&#x9002;&#x914D;&#x670D;&#x52A1;&#xFF0C;&#x5C06;&#x540E;&#x7AEF;&#x7684;&#x5FAE;&#x670D;&#x52A1;&#x8FDB;&#x884C;&#x9002;&#x914D;&#xFF08;&#x4E3B;&#x8981;&#x5305;&#x62EC;&#x805A;&#x5408;&#x88C1;&#x526A;&#x548C;&#x683C;&#x5F0F;&#x9002;&#x914D;&#x7B49;&#x903B;&#x8F91;&#xFF09;&#xFF0C;&#x5411;&#x65E0;&#x7EBF;&#x7AEF;&#x8BBE;&#x5907;&#x66B4;&#x9732;&#x53CB;&#x597D;&#x548C;&#x7EDF;&#x4E00;&#x7684; API&#xFF0C;&#x65B9;&#x4FBF;&#x65E0;&#x7EBF;&#x8BBE;&#x5907;&#x63A5;&#x5165;&#x8BBF;&#x95EE;&#x540E;&#x7AEF;&#x670D;&#x52A1;&#x3002;</p>
+</blockquote>
+<p>&#x6700;&#x81F4;&#x547D;&#x7684;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x662F;&#x6574;&#x4E2A; app-interface &#x5C5E;&#x4E8E; single point of failure&#xFF0C;&#x4E25;&#x91CD;&#x4EE3;&#x7801;&#x7F3A;&#x9677;&#x6216;&#x8005;&#x6D41;&#x91CF;&#x6D2A;&#x5CF0;&#x53EF;&#x80FD;&#x5F15;&#x53D1;&#x96C6;&#x7FA4;&#x5B95;&#x673A;&#x3002;</p>
+<p>&#x8DE8;&#x6A2A;&#x5207;&#x9762;(Cross-Cutting Concerns)&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x9700;&#x8981;&#x534F;&#x8C03;&#x66F4;&#x65B0;&#x6846;&#x67B6;&#x5347;&#x7EA7;&#x53D1;&#x7248;(&#x8DEF;&#x7531;&#x3001;&#x8BA4;&#x8BC1;&#x3001;&#x9650;&#x6D41;&#x3001;&#x5B89;&#x5168;)&#xFF0C;&#x56E0;&#x6B64;&#x5168;&#x90E8;&#x4E0A;&#x6C89;&#xFF0C;&#x5F15;&#x5165;&#x4E86; API Gateway&#xFF0C;&#x628A;&#x4E1A;&#x52A1;&#x96C6;&#x6210;&#x5EA6;&#x9AD8;&#x7684; BFF &#x5C42;&#x548C;&#x901A;&#x7528;&#x529F;&#x80FD;&#x670D;&#x52A1;&#x5C42; APIGateway &#x8FDB;&#x884C;&#x4E86;&#x5206;&#x5C42;&#x5904;&#x7406;&#x3002;</p>
+<blockquote>
+<p>&#x5728;&#x65B0;&#x7684;&#x67B6;&#x6784;&#x4E2D;&#xFF0C;&#x7F51;&#x5173;&#x627F;&#x62C5;&#x4E86;&#x91CD;&#x8981;&#x7684;&#x89D2;&#x8272;&#xFF0C;&#x5B83;&#x662F;&#x89E3;&#x8026;&#x62C6;&#x5206;&#x548C;&#x540E;&#x7EED;&#x5347;&#x7EA7;&#x8FC1;&#x79FB;&#x7684;&#x5229;&#x5668;&#x3002;&#x5728;&#x7F51;&#x5173;&#x7684;&#x914D;&#x5408;&#x4E0B;&#xFF0C;&#x5355;&#x5757; BFF &#x5B9E;&#x73B0;&#x4E86;&#x89E3;&#x8026;&#x62C6;&#x5206;&#xFF0C;&#x5404;&#x4E1A;&#x52A1;&#x7EBF;&#x56E2;&#x961F;&#x53EF;&#x4EE5;&#x72EC;&#x7ACB;&#x5F00;&#x53D1;&#x548C;&#x4EA4;&#x4ED8;&#x5404;&#x81EA;&#x7684;&#x5FAE;&#x670D;&#x52A1;&#xFF0C;&#x7814;&#x53D1;&#x6548;&#x7387;&#x5927;&#x5927;&#x63D0;&#x5347;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x628A;&#x8DE8;&#x6A2A;&#x5207;&#x9762;&#x903B;&#x8F91;&#x4ECE; BFF &#x5265;&#x79BB;&#x5230;&#x7F51;&#x5173;&#x4E0A;&#x53BB;&#x4EE5;&#x540E;&#xFF0C;BFF &#x7684;&#x5F00;&#x53D1;&#x5165;&#x5458;&#x53EF;&#x4EE5;&#x66F4;&#x52A0;&#x4E13;&#x6CE8;&#x4E1A;&#x52A1;&#x903B;&#x8F91;&#x4EA4;&#x4ED8;&#xFF0C;&#x5B9E;&#x73B0;&#x4E86;&#x67B6;&#x6784;&#x4E0A;&#x7684;&#x5173;&#x6CE8;&#x5206;&#x79BB;(Separation of Concerns)&#x3002;</p>
+</blockquote>
+<p>&#x6211;&#x4EEC;&#x4E1A;&#x52A1;&#x6D41;&#x91CF;&#x5B9E;&#x9645;&#x4E3A;:</p>
+<p>&#x79FB;&#x52A8;&#x7AEF;-&gt; API Gateway -&gt; BFF -&gt; Mircoservice&#xFF0C;&#x5728; FE Web &#x4E1A;&#x52A1;&#x4E2D;&#xFF0C;BFF &#x53EF;&#x4EE5;&#x662F; nodejs &#x6765;&#x505A;&#x670D;&#x52A1;&#x7AEF;&#x6E32;&#x67D3;(SSR, Server-Side Rendering)&#xFF0C;&#x6CE8;&#x610F;&#x8FD9;&#x91CC;&#x5FFD;&#x7565;&#x4E86;&#x4E0A;&#x6E38;&#x7684; CDN&#x3001;4/7 &#x5C42; &#x8D1F;&#x8F7D;&#x5747;&#x8861;&#xFF08;ELD&#xFF09;&#x3002;</p>
 <footer class="page-footer"><span class="copyright">powered by Gitbook</span><span class="footer-modification">&#x6700;&#x540E;&#x4FEE;&#x6539;&#x4E8E;
-2022-10-25 16:41:26
+2022-10-26 18:52:12
 </span></footer></body></html>
                                 
                                 </section>
@@ -595,10 +566,14 @@
 
             
                 
-                <a href="ch3.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: goroutine">
+                <a href="ch1.html" class="navigation navigation-prev " aria-label="Previous page: 微服务概览">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
+                
+                <a href="ch3.html" class="navigation navigation-next " aria-label="Next page: gRPC & 服务发现">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -607,7 +582,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"channel","level":"1.3.4","depth":2,"next":{"title":"微服务","level":"1.4","depth":1,"ref":"","articles":[{"title":"微服务概览","level":"1.4.1","depth":2,"path":"part3/ch1.md","ref":"part3/ch1.md","articles":[]},{"title":"微服务设计","level":"1.4.2","depth":2,"path":"part3/ch2.md","ref":"part3/ch2.md","articles":[]},{"title":"gRPC & 服务发现","level":"1.4.3","depth":2,"path":"part3/ch3.md","ref":"part3/ch3.md","articles":[]},{"title":"多集群 & 多租户","level":"1.4.4","depth":2,"path":"part3/ch4.md","ref":"part3/ch4.md","articles":[]}]},"previous":{"title":"goroutine","level":"1.3.3","depth":2,"path":"part2/ch3.md","ref":"part2/ch3.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","github-buttons","theme-comscore","splitter","lightbox","anchor-navigation-ex","tbfed-pagefooter","insert-logo","-lunr","-search","search-pro","-share","sharing-plus","katex"],"root":"./docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"modify_label":"最后修改于","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/fmw666"},"splitter":{},"search-pro":{},"sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"katex":{},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"theme-comscore":{},"github-buttons":{},"sharing":{"qq":false,"all":["douban","facebook","qq","qzone","twitter","weibo"],"douban":false,"facebook":false,"weibo":false,"instapaper":false,"twitter":false,"vk":false,"pocket":false,"google":false,"qzone":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"insert-logo":{"style":"background: none; max-height: 30px; min-height: 30px","url":"docs/images/wechat.png"}},"theme":"default","author":"fmw666","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Go 笔记","language":"zh-hans","links":{"sidebar":{"Home":""}},"gitbook":">=3.0.0","description":"Go notebook"},"file":{"path":"part2/ch4.md","mtime":"2022-10-25T08:41:26.717Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-10-27T09:51:33.568Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"微服务设计","level":"1.4.2","depth":2,"next":{"title":"gRPC & 服务发现","level":"1.4.3","depth":2,"path":"part3/ch3.md","ref":"part3/ch3.md","articles":[]},"previous":{"title":"微服务概览","level":"1.4.1","depth":2,"path":"part3/ch1.md","ref":"part3/ch1.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","github-buttons","theme-comscore","splitter","lightbox","anchor-navigation-ex","tbfed-pagefooter","insert-logo","-lunr","-search","search-pro","-share","sharing-plus","katex"],"root":"./docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"tbfed-pagefooter":{"modify_label":"最后修改于","modify_format":"YYYY-MM-DD HH:mm:ss"},"github":{"url":"https://github.com/fmw666"},"splitter":{},"search-pro":{},"sharing-plus":{"qq":false,"all":["facebook","google","twitter","instapaper","linkedin","pocket","stumbleupon"],"douban":false,"facebook":true,"weibo":false,"instapaper":false,"whatsapp":false,"hatenaBookmark":false,"twitter":true,"messenger":false,"line":false,"vk":false,"pocket":true,"google":false,"viber":false,"stumbleupon":false,"qzone":false,"linkedin":false},"katex":{},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"anchor-navigation-ex":{"associatedWithSummary":true,"float":{"floatIcon":"fa fa-navicon","level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"mode":"float","multipleH1":true,"pageTop":{"level1Icon":"","level2Icon":"","level3Icon":"","showLevelIcon":false},"printLog":false,"showGoTop":true,"showLevel":false},"lightbox":{"jquery":true,"sameUuid":false},"theme-comscore":{},"github-buttons":{},"sharing":{"qq":false,"all":["douban","facebook","qq","qzone","twitter","weibo"],"douban":false,"facebook":false,"weibo":false,"instapaper":false,"twitter":false,"vk":false,"pocket":false,"google":false,"qzone":false},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true},"insert-logo":{"style":"background: none; max-height: 30px; min-height: 30px","url":"docs/images/wechat.png"}},"theme":"default","author":"fmw666","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Go 笔记","language":"zh-hans","links":{"sidebar":{"Home":""}},"gitbook":">=3.0.0","description":"Go notebook"},"file":{"path":"part3/ch2.md","mtime":"2022-10-26T10:52:12.570Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2022-10-27T09:51:33.568Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
