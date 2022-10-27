@@ -1,0 +1,4 @@
+# Error vs Exception
+
+## Error
+

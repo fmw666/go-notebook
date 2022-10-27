@@ -1,0 +1,71 @@
+{
+    "root": "./docs",
+    "title": "Go 笔记",
+    "description": "Go notebook",
+    "author": "fmw666",
+    "language": "zh-hans",
+    "gitbook": ">=3.0.0",
+
+    "structure": {
+        "readme": "README.md"
+    },
+
+    "links" : {
+        "sidebar" : {
+            "Home" : ""
+        }
+    },
+
+    "plugins": [
+        "github",
+        "github-buttons",
+        "theme-comscore",
+        "splitter",
+        "lightbox",
+        "anchor-navigation-ex",
+        "tbfed-pagefooter",
+        "insert-logo",
+        "-lunr",
+        "-search",
+        "search-pro",
+        "-share",
+        "sharing-plus",
+        "katex"
+    ],
+
+    "pluginsConfig": {
+        "github": {
+            "url": "https://github.com/fmw666"
+        },
+        "theme-default": {
+            "showLevel": true
+        },
+        "anchor-navigation-ex": {
+            "showLevel": false,
+            "showGoTop": true
+        },
+        "tbfed-pagefooter": {
+            "modify_label": "最后修改于",
+            "modify_format": "YYYY-MM-DD HH:mm:ss"
+        },
+        "insert-logo": {
+            "url": "docs/images/wechat.png",
+            "style": "background: none; max-height: 30px; min-height: 30px"
+        },
+        "sharing": {
+            "douban": false,
+            "facebook": false,
+            "google": false,
+            "pocket": false,
+            "qq": false,
+            "qzone": false,
+            "twitter": false,
+            "weibo": false,
+            "all": ["douban", "facebook", "qq", "qzone", "twitter", "weibo"]
+        }
+    },
+
+    "styles": {
+        "website": "styles/website.css"
+    }
+}
